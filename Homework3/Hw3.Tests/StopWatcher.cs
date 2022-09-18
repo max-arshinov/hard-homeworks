@@ -5,6 +5,10 @@ namespace Hw3.Tests;
 
 public class StopWatcher
 {
+    /// <summary>
+    /// For quick tests only. For benchmarks use
+    /// https://benchmarkdotnet.org/
+    /// </summary>
     public static TimeSpan Stopwatch(Action action)
     {
         var sw = new Stopwatch();

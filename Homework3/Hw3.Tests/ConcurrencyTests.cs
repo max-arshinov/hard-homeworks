@@ -89,17 +89,21 @@ public class ConcurrencyTests: IClassFixture<StopWatcher>
 
     public void Semaphore()
     {
-        
+        // TODO: homework+
     }
     
-    public void SemaphoreSlimWithTasks()
+    [Fact]
+    public async Task SemaphoreSlimWithTasks()
     {
-        
+        var expected = await Concurrency.IncrementAsync(8, 100_000);
+        Assert.Equal(expected, Concurrency.Index);
     }
 
     public void NamedSemaphore_InterprocessCommunication()
     {
-        
+        // TODO: homework+
+        // https://learn.microsoft.com/en-us/dotnet/standard/threading/semaphore-and-semaphoreslim#named-semaphores
+        // see mutex as example
     }
 
     [Fact]

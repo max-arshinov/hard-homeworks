@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,10 @@ public static class Concurrency
     private static readonly ManualResetEvent Event = new(false);
 
     private static readonly SemaphoreSlim SemaphoreSlim = new(1,1);
-    
+
+    // https://habr.com/ru/post/198104/
+    private static readonly ConcurrentDictionary<string, int> _dict = new();
+
     private static readonly object Locker = new();
     
     public static int IncrementWithLock(int threadCount, int iterations)
@@ -39,6 +43,14 @@ public static class Concurrency
     public static int Increment(int threadCount, int iterations)
     {
         return DoIncrement(threadCount, iterations, () => _index++);
+    }
+
+    public static int IncrementWithConcurrentDictionary(int threadCount, int iterations)
+    {
+        return _index = DoIncrement(threadCount, iterations, 
+            () => _dict.AddOrUpdate("index",
+                static _ => 0,                
+                static (_,v) => v + 1));
     }
 
     private static int DoIncrement(int threadCount, int iterations, Action increment)

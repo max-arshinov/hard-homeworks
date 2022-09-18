@@ -107,6 +107,13 @@ public class ConcurrencyTests: IClassFixture<StopWatcher>
     }
 
     [Fact]
+    public void ConcurrentDictionary_100KIterations_WithInterlocked_NoRaces()
+    {
+        var expected = Concurrency.IncrementWithConcurrentDictionary(8, 100_000);
+        Assert.Equal(expected, Concurrency.Index);
+    }
+
+    [Fact]
     public async Task Mutex()
     {
         var p1 = new Process 
